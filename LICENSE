@@ -1,0 +1,41 @@
+Copyright (c) 2026 Claudio Cataldo. All rights reserved.
+
+RenAmp is a personal software project developed by Claudio Cataldo.
+
+This repository is publicly available for portfolio, educational, and evaluation purposes. The source code demonstrates real-time audio programming techniques, DSP architecture, neural amplifier modeling integration, and modern C++ development practices.
+
+PERMITTED USES:
+
+* Viewing and studying the source code
+* Compiling and running the software for personal, non-commercial purposes
+* Using the code as a learning reference
+
+RESTRICTIONS:
+
+* Redistribution of source code is prohibited
+* Redistribution of compiled binaries is prohibited
+* Commercial use is prohibited
+* Modification and republication are prohibited
+* Creation of derivative works is prohibited without prior written permission
+
+THIRD-PARTY COMPONENTS:
+
+This project incorporates third-party software distributed under their respective licenses, including but not limited to:
+
+* NeuralAmpModelerCore (Apache License 2.0)
+* RTNeural (MIT License)
+* Eigen (MPL 2.0)
+
+Users must comply with the terms of those licenses where applicable.
+
+AUTHOR:
+Claudio Cataldo
+
+Repository:
+GitHub profile URL to be added.
+
+DISCLAIMER:
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE USE OF THIS SOFTWARE.
