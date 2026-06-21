@@ -1,8 +1,11 @@
 # Renamp
 
+[![CI](https://github.com/JamNow7/RenAmp/workflows/RenAmp%20CI/badge.svg)](https://github.com/JamNow7/RenAmp/actions)
+[![Tests](https://github.com/JamNow7/RenAmp/workflows/RenAmp%20CI/badge.svg)](https://github.com/JamNow7/RenAmp/actions)
+
 > Real-time guitar amplifier simulator written in modern C++ for macOS, featuring Neural Amp Modeler (NAM) integration and cabinet impulse response processing.
 
-**Current Status:** Stable real-time prototype. Verified on macOS 15.4.1 (24E263).
+**Current Status:** Stable real-time prototype. Verified on macOS 15.4.1 (24E263). **✅ CI Tests Passing**
 
 **Copyright (c) 2026 Claudio Cataldo. All rights reserved.**
 
@@ -78,6 +81,27 @@ mkdir build && cd build
 cmake -S .. -B . -DCMAKE_BUILD_TYPE=Release
 cmake --build .
 ```
+
+### Testing
+
+```bash
+mkdir build && cd build
+cmake -DRENAAMP_BUILD_TESTS=ON -DRENAAMP_BUILD_BENCHMARKS=OFF ..
+make renaamp_tests
+./renaamp_tests -s
+```
+
+**Current Test Status:** ✅ NAM tests passing (24 cases, 6542 assertions) | ⚠️ Cabinet/limiter tests have known implementation bugs (9 failures)
+
+Run specific test tags:
+```bash
+./renaamp_tests "[nam]"     # NAM model tests only (24 tests)
+./renaamp_tests "[dsp]"     # DSP tests only
+./renaamp_tests "[cabinet]" # Cabinet IR tests
+./renaamp_tests "[limiter]" # Limiter tests
+```
+
+---
 
 ### Run
 

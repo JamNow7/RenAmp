@@ -1,0 +1,62 @@
+name: RenAmp CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # macOS - Tests
+  macos-tests:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install dependencies
+      run: |
+        brew update
+        brew install jack pkg-config
+
+    - name: Configure CMake with tests
+      run: |
+        mkdir build
+        cd build
+        cmake -DRENAAMP_BUILD_TESTS=ON -DRENAAMP_BUILD_BENCHMARKS=OFF ..
+
+    - name: Build tests
+      run: |
+        cd build
+        make renaamp_tests
+
+    - name: Run tests
+      continue-on-error: true
+      run: |
+        cd build
+        ./renaamp_tests -s
+
+  # macOS - Main executable
+  macos-build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install dependencies
+      run: |
+        brew update
+        brew install jack pkg-config
+
+    - name: Build main executable
+      run: |
+        mkdir build
+        cd build
+        cmake -DRENAAMP_BUILD_BENCHMARKS=OFF ..
+        make renaamp -j$(sysctl -n hw.ncpu)

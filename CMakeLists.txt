@@ -264,7 +264,10 @@ if(RENAAMP_BUILD_TESTS)
         FetchContent_MakeAvailable(Catch2)
     endif()
 
-    file(GLOB_RECURSE TEST_SOURCES "tests/unit/*.cpp")
+    file(GLOB_RECURSE TEST_SOURCES
+        "tests/unit/*.cpp"
+        "tests/integration/*.cpp"
+    )
 
     # ── FIX PRINCIPAL: incluir fuentes DSP que los tests referencian ──
     add_executable(renaamp_tests
@@ -286,6 +289,11 @@ if(RENAAMP_BUILD_TESTS)
     )
 
     target_include_directories(renaamp_tests PRIVATE ${JACK_INCLUDE_DIRS})
+
+    # Define test fixtures directory path for tests to find fixture files
+    target_compile_definitions(renaamp_tests PRIVATE
+        TEST_FIXTURES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/fixtures/test_data"
+    )
 
     # Tests necesitan excepciones (Catch2 las usa; NAM también)
     target_compile_options(renaamp_tests PRIVATE
@@ -334,56 +342,18 @@ if(RENAAMP_BUILD_BENCHMARKS)
 endif()
 
 # ============================================================================
-# TEST_NAM_BASIC (disabled by default; moved to docs/legacy/tests)
+# LEGACY TESTS (disabled - files moved/deprecated)
 # ============================================================================
-if(RENAAMP_BUILD_TESTS)
-add_executable(test_nam_basic
-    docs/legacy/tests/test_nam_basic.cpp
-    ${NAM_CORE_SOURCES}
-)
-endif()
-
-if(RENAAMP_BUILD_TESTS)
-target_include_directories(test_nam_basic PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore/Dependencies/eigen
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore/Dependencies/nlohmann
-)
-
-target_link_libraries(test_nam_basic PRIVATE Threads::Threads)
-target_compile_options(test_nam_basic PRIVATE -fexceptions)
-
-set_source_files_properties(${NAM_CORE_SOURCES} PROPERTIES
-    COMPILE_FLAGS "-fexceptions"
-)
-endif()
-
+# test_nam_basic and test_dynamic_harness have been moved to docs/legacy/tests/
+# Commented out as source files don't exist in current tree
 # ============================================================================
-# TEST_DYNAMIC_HARNESS (disabled by default; moved to docs/legacy/tests)
-# ============================================================================
-if(RENAAMP_BUILD_TESTS)
-add_executable(test_dynamic_harness
-    docs/legacy/tests/test_dynamic_harness.cpp
-    ${NAM_CORE_SOURCES}
-)
-endif()
-
-if(RENAAMP_BUILD_TESTS)
-target_include_directories(test_dynamic_harness PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore/Dependencies/eigen
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/NeuralAmpModelerCore/Dependencies/nlohmann
-)
-
-target_link_libraries(test_dynamic_harness PRIVATE Threads::Threads)
-target_compile_options(test_dynamic_harness PRIVATE -fexceptions)
-
-set_source_files_properties(${NAM_CORE_SOURCES} PROPERTIES
-    COMPILE_FLAGS "-fexceptions"
-)
-endif()
+# if(RENAAMP_BUILD_TESTS)
+# add_executable(test_nam_basic
+#     docs/legacy/tests/test_nam_basic.cpp
+#     ${NAM_CORE_SOURCES}
+# )
+# ...
+# endif()
 
 # =========================================================================
 # INSTALL

@@ -117,6 +117,13 @@ void NAMProcessor::process(float* left, float* right, size_t count) {
     const float mix_dry = 1.0f - mix;
     const float mix_wet = mix;
 
+    // DEBUG: Remove this later
+    static int debug_count = 0;
+    if (debug_count < 3) {
+        std::cout << "DEBUG: mix=" << mix << " mix_dry=" << mix_dry << " mix_wet=" << mix_wet << std::endl;
+        debug_count++;
+    }
+
     if (active_slot->use_wavenet && active_slot->nam_dsp) {
         std::copy(left, left + count, temp_dry_left_.data());
         std::copy(right, right + count, temp_dry_right_.data());
@@ -260,8 +267,10 @@ void NAMProcessor::setOutputGain(float gain_db, float smooth_time) {
 }
 
 void NAMProcessor::setMix(float mix, float smooth_time) {
-    mix_smoother_.setTarget(std::clamp(mix, 0.0f, 1.0f),
-                            smooth_time > 0 ? smooth_time : 0.05f);
+    float clamped_mix = std::clamp(mix, 0.0f, 1.0f);
+    // Use 0 duration for immediate change, otherwise use provided time or default 50ms
+    float duration = (smooth_time == 0.0f) ? 0.0f : (smooth_time > 0 ? smooth_time : 0.05f);
+    mix_smoother_.setTarget(clamped_mix, duration);
 }
 
 bool NAMProcessor::isModelLoaded() const {
